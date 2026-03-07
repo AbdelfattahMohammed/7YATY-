@@ -25,7 +25,7 @@
 
         #name {
             position: absolute;
-            top: 5%;
+            top: 3%;
             left: 50%;
             transform: translateX(-50%);
             font-size: 60px;
@@ -145,6 +145,52 @@
 
 <body>
 
+    <div id="passwordScreen" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:9999;
+">
+
+        <h2 style="color:#ff2b6e;text-shadow:0 0 20px #ff2b6e;">
+            أدخل كلمة السر 🔐
+        </h2>
+
+        <input type="password" id="passInput" placeholder="اكتب كلمة السر" style="
+padding:12px;
+font-size:18px;
+border-radius:10px;
+border:none;
+outline:none;
+text-align:center;
+">
+
+        <br>
+
+        <button onclick="checkPassword()" style="
+padding:10px 20px;
+font-size:18px;
+background:#ff2b6e;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+box-shadow:0 0 15px #ff2b6e;
+">
+            دخول ❤️
+        </button>
+
+        <p id="error" style="color:red;margin-top:10px;"></p>
+
+    </div>
+
     <div id="name">أيه ❤️</div>
 
     <canvas id="canvas"></canvas>
@@ -157,14 +203,14 @@
     </div>
 
     <div id="message">
-        لم أكن أؤمن أن شخصاً يمكنه أن يغير حياتي…
-        حتى دخلتِ أنتِ حياتي 🤍
+        مكنتش متخيل أن فى شخص يقدر يغير حياتي…
+        غير لما دخلتِ أنتِ حياتي 🤍
 
-        وجودك نور…
-        وصوتك أمان…
-        وقلبك هو المكان الذي أهرب إليه من العالم.
+        وجودك نور حياتى…
+        وحضنك دفى…
+        وقلبك هو المكان اللى بأهرب فيه من الدنيا.
 
-        أحبك بلا حدود ✨
+        بأحبك بلا حدود 🥺✨
     </div>
 
     <audio id="music" loop>
@@ -193,9 +239,7 @@
 
         let progress = 0;
 
-        img.onload = function () {
-            animate();
-        }
+
 
         function animate() {
 
@@ -245,11 +289,34 @@
             }
         }
 
-        /* 🎵 تشغيل الموسيقى بعد أول ضغط */
-        document.body.addEventListener("click", function () {
+        function checkPassword() {
+
+            const input = document.getElementById("passInput").value;
             const music = document.getElementById("music");
-            music.play().catch(() => { });
-        }, { once: true });
+
+            if (input === "moseera") {
+
+                // اخفاء شاشة الباسورد
+                document.getElementById("passwordScreen").style.display = "none";
+
+                // تشغيل الموسيقى تلقائي
+                music.currentTime = 0;
+                music.play();
+
+                // تشغيل الانيميشن
+                if (img.complete) {
+                    animate();
+                } else {
+                    img.onload = animate;
+                }
+
+            } else {
+
+                document.getElementById("error").innerText = "❌ كلمة السر غلط حاول تاني";
+
+            }
+
+        }
 
     </script>
 
